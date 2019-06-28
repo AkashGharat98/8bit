@@ -118,7 +118,6 @@ range2=0
 range3=0
 range4=0
 range5=0
-r=0
 for index,rows in apps.iterrows():
     if int(rows['Installs']) >= 10000 and int(rows['Installs']) <50000:
         range1+=1
@@ -138,7 +137,6 @@ print(range2)
 print(range3)
 print(range4)
 print(range5)  
-print(r) 
         
 
 
