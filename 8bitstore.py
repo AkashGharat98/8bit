@@ -306,6 +306,101 @@ print(negative)
 '''
 ###############################################################################   
 
+########################## REQ 17 #############################################
+'''
+temp = review.drop_duplicates(subset='App', keep='first')
+app=temp['App'].tolist()
+#print(len(app))
 
-########################## REQ 14 ##############################################
+#apps['Size'] = apps['Size'].str.replace('M','')
+
+
+indexNames = apps[ apps['Size'] == "Varies with device" ].index
+ 
+# Delete these row indexes from dataFrame
+apps.drop(indexNames , inplace=True)
+
+
+temp=apps['Size'].tolist()
+
+size=[]
+for i in temp:
+    if 'M' in i:
+        x=i.replace("M","")
+        size.append(float(x)*1024)
+    elif 'k' in i:
+        x=i.replace("k","")
+        size.append(float(x))
+        
+apps['Size']=size
+
+list_apps=apps['Size'].tolist()
+#print(max(list_apps))
+
+
+sum1=0
+sum2=0
+sum3=0
+sum4=0
+sum5=0
+sum6=0
+
+#print(apps['Installs'].dtype)
+
+for index,row in apps.iterrows():
+    if row['Size']>=0 and row['Size']<20000:
+        sum1+=int(row['Installs'])
+    elif row['Size']>=20000 and row['Size']<40000:
+        sum2+=int(row['Installs'])
+    elif row['Size']>=40000 and row['Size']<60000:
+        sum3+=int(row['Installs'])
+    elif row['Size']>=60000 and row['Size']<80000:
+        sum4+=int(row['Installs'])
+    elif row['Size']>=80000 and row['Size']<100000:
+        sum5+=int(row['Installs'])
+    elif row['Size']>=100000 and row['Size']<120000:
+        sum6+=int(row['Installs'])
+
+sum1/=1000000
+sum2/=1000000
+sum3/=1000000
+sum4/=1000000
+sum5/=1000000
+sum6/=1000000
+
+list_installs=[]
+list_installs.append(sum1)
+list_installs.append(sum2)
+list_installs.append(sum3)
+list_installs.append(sum4)
+list_installs.append(sum5)
+list_installs.append(sum6)
+
+print(list_installs)
+
+
+activities = ['0-20 Mb', '20-40 Mb', '40-60 Mb', '60-80 Mb','80-100 Mb','100-120 Mb']
+colors = ['red', 'yellow', 'green', 'blue','orange','pink'] 
+  
+# plotting the pie chart 
+plt.pie(list_installs, labels = activities, colors=colors,  
+        startangle=0, shadow = True,  
+        radius = 1.2, autopct = '%1.1f%%') 
+  
+# plotting legend 
+#plt.legend() 
+
+# showing the plot 
+plt.show()
+
+###############################################################################   
+
+
+########################## REQ 13 #############################################
+data = review[['Sentiment_Polarity','Sentiment_Subjectivity']]
+#correlation = data.corr(method='pearson')
+print(data.corr(method='pearson'))
+
+
+##############################################################################
 
