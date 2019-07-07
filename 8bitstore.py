@@ -396,11 +396,64 @@ plt.show()
 ###############################################################################   
 
 
-########################## REQ 13 #############################################
-data = review[['Sentiment_Polarity','Sentiment_Subjectivity']]
-#correlation = data.corr(method='pearson')
-print(data.corr(method='pearson'))
+########################## REQ 12 #############################################
+cat = review.drop_duplicates(subset='App', keep='first')
+app=[]
+app=cat['App'].tolist()
+     
+positive=[]
+negative=[]
+pos_perc=[]
+neg_perc=[]
+
+for i in app:
+         
+    pos=0
+    neg=0
+
+    x=review.loc[review['App'] == i]
+   
+    counter=x['Sentiment'].tolist()
+   
+   
+    pos=counter.count("Positive")
+    neg=counter.count("Negative")
+
+       
+    positive.append(pos)
+    negative.append(neg)
+   
+
+print("APPS WITH APPROX SAME RATIO:")
+
+for i in range(len(app)):
+    if positive[i]==0 and negative[i]==0:
+        pos_perc.append(0)
+        neg_perc.append(0)
+    else:
+        pos_perc.append(round((positive[i]/(positive[i]+negative[i]))*100,2))
+        neg_perc.append(round((negative[i]/(positive[i]+negative[i]))*100,2))
+    if positive[i]!=0 and negative[i]!=0 and positive[i]/negative[i]>=0.95 and positive[i]/negative[i]<=1.05:
+        print(app[i])
+       
 
 
+#print(positive)
+#print(negative)
+#print(pos_perc)
+#print(neg_perc)
+print()
+print("APP WITH MOST POSITIVE SENTIMENT:")
+max_value_pos = max(pos_perc)
+for i in range(len(app)):
+    if pos_perc[i]==max_value_pos:
+        print(app[i])
+print()
+print("APP WITH MOST NEGATIVE SENTIMENT:")
+max_value_neg = max(neg_perc)
+for i in range(len(app)):
+    if neg_perc[i]==max_value_neg:
+        print(app[i])
+####################################################################################
 ##############################################################################
 
